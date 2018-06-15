@@ -13,22 +13,20 @@ const login = (req, res) => {
       res.status(422).json({ error: 'No user with that username in our DB' });
       return;
     }
-    user.checkPassword(password, (nonMatch, hashMatch) => {     
-      if (nonMatch !== null) {
+    user.checkPassword(password)
+    .then(matched => {
+      if(matched ) {
+       const payload = {
+         username: user.username
+       };
+       const token = jwt.sign(payload, mysecret); // creates JWT with a secret and a payload and a hash.
+          res.status(200).json({ token });
+      } else {
         res.status(422).json({ error: 'passwords dont match' });
-        return;
       }
-      if (hashMatch) {
-        const payload = {
-          username: user.username
-        }; // payload.
-        const token = jwt.sign(payload, mysecret); // creates our JWT with a secret and a payload and a hash.
-        res.json({ token }); // sends the token back to the client
-      }
-    });
-  });
-};
-
+    })
+})
+}
 module.exports = {
   login
 };
