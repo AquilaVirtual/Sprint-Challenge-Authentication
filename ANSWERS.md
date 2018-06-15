@@ -8,6 +8,7 @@
 
 
 2.  What does bcrypt do in order to prevent attacks?
+    bcrypt allows us to increase the cost which allows us to limit the total number of hashes possible within a certain amount of time. This prevents an attacker from simply attempting to use a large library of potential passwords and hashing them all.
 
 3.  What are the three parts of the JSON Web Token?
     Header
